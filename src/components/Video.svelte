@@ -94,8 +94,6 @@
   }
 </script>
 
-<svelte:head><meta name="viewport" content="minimal-ui"></svelte:head>
-
 <div
   class="Video"
   bind:this={videoContainer}
