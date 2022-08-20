@@ -18,6 +18,7 @@
   let duration = 0;
   let thumbnailTime = 0;
   let thumbnailChangeInterval = -1;
+  let thumbnailSrc = '';
 
   function playPreview() {
     if (thumbnailChangeInterval === -1) {
@@ -33,6 +34,7 @@
         metadataReceived = true;
         duration = (metadata?.duration_ms || 0) / 1000;
       });
+      thumbnailSrc = `${api_href}?width=${thumbnailSize}`;
     }
   }
 
@@ -58,10 +60,10 @@
   on:hoverend={stopPreview}
 >
   {#if fileType === 'image'}
-    <img src="{api_href}?width={thumbnailSize}" alt={name} />
+    <img src={thumbnailSrc} alt={name} />
   {:else if fileType === 'video'}
     <img
-      src="{api_href}?seek={thumbnailTime || 0.5}&width={thumbnailSize}"
+      src="{thumbnailSrc}&seek={thumbnailTime || 0.5}"
       alt={name}
     />
     <div class="File__video-overlay">

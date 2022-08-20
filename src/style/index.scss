@@ -43,6 +43,9 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+  @include text.ellipsis(3);
+  text-align: center;
+  display: flex;
 }
 
 video {
