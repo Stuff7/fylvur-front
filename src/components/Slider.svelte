@@ -1,6 +1,7 @@
 <script lang="ts">
   import { range } from 'utils/math';
   import { genCssVars } from 'utils/dom';
+  import hover from 'actions/hover';
 
   export let min = 0;
   export let max = 100;
@@ -9,6 +10,7 @@
   export let value = 0;
   export let stepIndicators = false;
   export let thumbRadius = '0.5em';
+  export let element: HTMLDivElement | null = null;
 
   $: length = max - min;
   $: rangePercentage = (value - min) * 100 / length;
@@ -23,7 +25,13 @@
     thumbRadius,
     width,
   })}
+  bind:this={element}
+  on:hover
+  on:hoverend
+  on:pointermove
+  use:hover
 >
+  <slot />
   <input
     class="Slider__input"
     type="range"

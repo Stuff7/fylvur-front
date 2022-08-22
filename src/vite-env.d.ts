@@ -40,12 +40,15 @@ declare interface HTMLVideoElement {
   webkitWirelessVideoPlaybackDisabled: boolean;
 }
 
+declare type HoverEvent = CompositionEvent<{ event: MouseEvent }>;
+declare type HoverEventHandler = (e: HoverEvent) => void;
+
 declare namespace svelte.JSX {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface DOMAttributes<T> {
-    onglobalkeydown?: (e: CustomEvent<string>) => void;
-    onhover?: CompositionEventHandler<T>;
-    onhoverend?: CompositionEventHandler<T>;
+    onglobalkeydown?: (e: CompositionEvent<string>) => void;
+    onhover?: HoverEventHandler;
+    onhoverend?: HoverEventHandler;
   }
 }
 

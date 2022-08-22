@@ -1,16 +1,22 @@
 export default function hover<T extends HTMLElement>(node: T): SvelteActionReturnType {
-  function hoverListener() {
-    node.dispatchEvent(new CustomEvent('hover'));
+  function hoverListener(event: Event) {
+    node.dispatchEvent(new CustomEvent('hover', {
+      detail: { event: event as MouseEvent },
+    }));
   }
 
-  function hoverEndListener() {
-    node.dispatchEvent(new CustomEvent('hoverend'));
+  function hoverEndListener(event: Event) {
+    node.dispatchEvent(new CustomEvent('hoverend', {
+      detail: { event: event as MouseEvent },
+    }));
   }
 
   function mobileHoverEndListener(event: Event) {
     const touch = (event as TouchEvent).changedTouches[0];
     if (node !== document.elementFromPoint(touch.clientX, touch.clientY)) {
-      node.dispatchEvent(new CustomEvent('hoverend'));
+      node.dispatchEvent(new CustomEvent('hoverend', {
+        detail: { event: event as MouseEvent },
+      }));
     }
   }
 

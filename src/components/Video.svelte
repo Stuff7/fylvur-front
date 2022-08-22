@@ -4,7 +4,7 @@
   import Fullscreen from './icons/Fullscreen.svelte';
   import Play from './icons/Play.svelte';
   import Infinity from './icons/Infinity.svelte';
-  import Slider from './Slider.svelte';
+  import VideoProgress from 'components/VideoProgress.svelte';
   import { formatTime } from 'utils/string';
   import { checkIfSafari, toggleFullscreen } from 'utils/dom';
 
@@ -12,6 +12,7 @@
   export let type: string;
 
   onMount(() => {
+    rootElement = document.querySelector('html');
     isSafari = checkIfSafari();
     isFirefox = navigator.userAgent.indexOf('Firefox') > 0;
     if (isSafari) {
@@ -20,11 +21,16 @@
   });
 
   onDestroy(() => {
+    if (rootElement) {
+      rootElement.style.overflow = '';
+    }
     window.clearTimeout(hideControlsTO);
     if (isSafari) {
       video.removeEventListener('webkitendfullscreen', handleEndFullscreen);
     }
   });
+
+  let rootElement: HTMLHtmlElement | null = null;
 
   let isFirefox = false;
   let isSafari = false;
@@ -92,6 +98,9 @@
         loop = !loop; break;
     }
   }
+  $: if (rootElement) {
+    rootElement.style.overflow = 'hidden';
+  }
 </script>
 
 <div
@@ -111,11 +120,10 @@
       on:click={togglePlay}
       on:dblclick={fullscreen}
     />
-    <Slider
-      max={duration}
-      thumbRadius="0.35em"
-      width="100%"
-      bind:value={currentTime}
+    <VideoProgress
+      {duration}
+      videoPath={src.replace('/file/', '')}
+      bind:currentTime
       on:change={progressBarListener}
     />
     <div class="Video__controls-bottom">
