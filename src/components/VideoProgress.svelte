@@ -98,6 +98,5 @@
     color: color.get(platinum);
     background: color.get-rgba(matte-black, 0.5);
     width: 100%;
-
   }
 </style>
